@@ -38,17 +38,23 @@ CREATE TABLE "users" (
   "id" integer PRIMARY KEY,
   "name" varchar NOT NULL,
   "email" varchar UNIQUE NOT NULL,
+  "trainer_id" integer,
   "created_at" timestamp DEFAULT (now())
 );
 
 CREATE TABLE "workouts" (
   "id" integer PRIMARY KEY,
   "user_id" integer,
-  "exercises" array[integer],
+  "exercises" integer[],
   "created_at" timestamp DEFAULT (now()),
   "started_at" timestamp,
   "updated_at" timestamp,
   "finished_at" timestamp
+);
+
+CREATE TABLE "trainers" (
+  "id" integer PRIMARY KEY,
+  "trainees" integer[]
 );
 
 CREATE INDEX ON "user_exercises" ("exercise_id");
@@ -59,6 +65,6 @@ CREATE INDEX ON "workouts" ("exercises");
 
 ALTER TABLE "workouts" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
-ALTER TABLE "workouts" ADD FOREIGN KEY ("exercises") REFERENCES "user_exercises" ("id");
-
 ALTER TABLE "user_exercises" ADD FOREIGN KEY ("exercise_id") REFERENCES "exercises" ("id");
+
+ALTER TABLE "users" ADD FOREIGN KEY ("trainer_id") REFERENCES "trainers" ("id");

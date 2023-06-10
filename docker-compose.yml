@@ -1,0 +1,17 @@
+version: '3.8'  
+
+services:
+  db:
+    container_name: fitness_app
+    hostname: fitness_app
+    image: postgres:12-alpine
+    ports:
+      - "5433:5432"
+    restart: unless-stopped
+    env_file:
+      - dbcreds.env
+    volumes:
+      - postgres:/var/lib/postgresql/data/
+
+volumes:
+  postgres:
